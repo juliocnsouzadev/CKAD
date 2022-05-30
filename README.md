@@ -86,3 +86,47 @@ spec:
         - configMapRef:
             name: my-config-map
 ```
+
+# Secrets
+
+## Imperative approach
+```bash
+kubectl create secret generic my-secrets \
+    --from-literal=SOME_KEY=some-value \
+    --from-literal=ANOTHER_KEY=another-value
+```
+
+## Declarative approach
+<i>my-secrets.yaml</i>
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: my-secrets
+data:
+    SOME_KEY: some-value #base64 encoded >> echo -n some-value | base64
+```
+```bash
+kubectl create -f my-secrets.yaml
+kubectl get secrets
+kubectl describe secrets
+```
+<i>my-pod-definition.yaml</i>
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-app-pod
+  labels:
+    app: my-app
+    env: production
+spec:
+    containers:
+    - name: my-app
+        image: my-app:latest
+        envFrom:
+        - configMapRef:
+            name: my-config-map
+        - secretRef: 
+            name: my-secrets
+```
