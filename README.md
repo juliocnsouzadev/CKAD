@@ -204,3 +204,13 @@ spec:
         memory: "1Gi"
         disk: "1Gi"
 ```	
+# Service Account
+```bash
+kubectl create serviceaccount my-service-account
+kubectl describe serviceaccount my-service-account
+kubectl get secret
+kubectl describe secret # get the token
+```
+Examples of deployment definition and pod definition using "my-service-account":
+- [deployment.yaml](./service-accounts/deployment.yaml)
+- [pod.yaml](./service-accounts/pod.yaml)
