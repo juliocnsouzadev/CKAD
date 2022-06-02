@@ -1,0 +1,113 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: "2022-06-02T15:35:48Z"
+  generateName: web-dashboard-767bc588bc-
+  labels:
+    name: web-dashboard
+    pod-template-hash: 767bc588bc
+  name: web-dashboard-767bc588bc-hrdkq
+  namespace: default
+  ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: web-dashboard-767bc588bc
+      uid: 548d20c6-278a-4d91-9d95-57c2e804dcb2
+  resourceVersion: "797"
+  uid: 7a2f3896-9bf6-4696-b862-5bf04181716e
+spec:
+  containers:
+    - env:
+        - name: PYTHONUNBUFFERED
+          value: "1"
+      image: gcr.io/kodekloud/customimage/my-kubernetes-dashboard
+      imagePullPolicy: Always
+      name: web-dashboard
+      ports:
+        - containerPort: 8080
+          protocol: TCP
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+        - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+          name: kube-api-access-xvphp
+          readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  nodeName: controlplane
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: my-service-account
+  serviceAccountName: my-service-account
+  terminationGracePeriodSeconds: 30
+  tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+  volumes:
+    - name: kube-api-access-xvphp
+      projected:
+        defaultMode: 420
+        sources:
+          - serviceAccountToken:
+              expirationSeconds: 3607
+              path: token
+          - configMap:
+              items:
+                - key: ca.crt
+                  path: ca.crt
+              name: kube-root-ca.crt
+          - downwardAPI:
+              items:
+                - fieldRef:
+                    apiVersion: v1
+                    fieldPath: metadata.namespace
+                  path: namespace
+status:
+  conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2022-06-02T15:35:48Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2022-06-02T15:35:57Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2022-06-02T15:35:57Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2022-06-02T15:35:48Z"
+      status: "True"
+      type: PodScheduled
+  containerStatuses:
+    - containerID: containerd://b29b0a85746fa55adbc6dd7fcbf3bc7533c0a5348f5cc632bed6be59b0b4da01
+      image: gcr.io/kodekloud/customimage/my-kubernetes-dashboard:latest
+      imageID: gcr.io/kodekloud/customimage/my-kubernetes-dashboard@sha256:7d70abe342b13ff1c4242dc83271ad73e4eedb04e2be0dd30ae7ac8852193069
+      lastState: {}
+      name: web-dashboard
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2022-06-02T15:35:56Z"
+  hostIP: 172.25.0.48
+  phase: Running
+  podIP: 10.42.0.9
+  podIPs:
+    - ip: 10.42.0.9
+  qosClass: BestEffort
+  startTime: "2022-06-02T15:35:48Z"
