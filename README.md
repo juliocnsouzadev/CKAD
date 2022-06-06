@@ -259,3 +259,82 @@ rmeove taint
 ```bash
 kubectl taint nodes application-node app=blue:NoSchedule-
 ```
+
+# Node Selectors
+
+## Label Nodes
+```bash
+kubectl label nodes node-1 size=Large	
+kubectl get node node01 --show-labels
+```
+
+## Add node selector to pod definition
+```yaml
+apiVersion: v1
+kind: Pod
+...
+spec:
+  nodeSelector: # need to label the node
+    size: Large
+```	
+
+# Node Affinity
+
+## Use operators to match the node:
+```yaml
+apiVersion: v1
+kind: Pod
+...
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: size
+          operator: In # In is used to match the value of the node selector 
+          values:
+          - Large
+          - Medium
+```	
+
+## Same as above
+```yaml
+apiVersion: v1
+kind: Pod
+...
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: size
+          operator: NotIn # NotIn is used to match the value of the node selector 
+          values:
+          - Small
+```	
+** check documentation for more info about operators
+
+## Node Affinity Types
+
+### Required -> Pod will be scheduled on a node that matches the required node selector, if not it will be rejected
+```yaml
+apiVersion: v1
+kind: Pod
+...
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+...
+```	
+### Preferred -> Pod will be scheduled on a node that matches the preferred node selector, if not it will be placed on the first available node
+```yaml
+apiVersion: v1
+kind: Pod
+...
+affinity:
+  nodeAffinity:
+    preferedDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+...
+```	
