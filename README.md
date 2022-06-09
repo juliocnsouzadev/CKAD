@@ -439,3 +439,7 @@ spec:
       periodSeconds: 5 # interval between the probes
       failureThreshold: 3 # number of consecutive failures before the pod is considered unhealthy
 ```
+# Logging
+```bash
+kubectl logs -f my-app-pod my-app-container
+```	
