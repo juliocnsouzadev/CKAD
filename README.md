@@ -538,3 +538,62 @@ Rollout command
 kubectl rollout status deployment/my-app-deployment	
 kubectl rollout history deployment/my-app-deployment	
 ```
+
+# Jobs
+
+## Job
+
+job-definition.yaml
+```yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: my-app-job
+spec:
+  completions: 6 # number of times the job will be run
+  parallelism: 3 # number of pods that can run at the same time
+  template:
+    metadata:
+      labels:
+        app: my-app
+    containers:
+    - name: my-app-container
+      image: my-app:latest
+    restartPolicy: Never
+```
+
+create the job
+```bash	
+kubectl create -f job-definition.yaml
+kubectl get jobs
+```	
+
+## CronJob
+
+cronjob-definition.yaml
+```yaml
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: my-app-cronjob
+spec:
+  schedule: "*/5 * * * *" # every 5 minutes
+  jobTemplate:
+    spec:
+      completions: 6 # number of times the job will be run
+      parallelism: 3 # number of pods that can run at the same time
+      template:
+        metadata:
+          labels:
+            app: my-app
+        containers:
+        - name: my-app-container
+          image: my-app:latest
+        restartPolicy: Never
+```
+
+create the job
+```bash	
+kubectl create -f cronjob-definition.yaml
+kubectl get cronjobs
+```	
