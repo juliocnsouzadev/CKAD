@@ -689,3 +689,53 @@ spec:
     - port: 53
       protocol: TCP
 ```	 
+
+# Ingress
+
+## Ingress Controller
+
+Imperative way to create an ingress
+```bash
+# Format
+kubectl create ingress <ingress-name> --rule="host/path=service:port"
+
+#Example
+kubectl create ingress ingress-test --rule="wear.my-online-store.com/wear*=wear-service:80"
+```	
+
+Declarative
+```yaml
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-wear-watch
+  namespace: app-space
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /wear
+        pathType: Prefix
+        backend:
+          service:
+           name: wear-service
+           port: 
+            number: 8080
+      - path: /watch
+        pathType: Prefix
+        backend:
+          service:
+           name: video-service
+           port:
+            number: 8080
+```
+
+Get all ingress
+```bash
+kubectl get ingress --all-namespace
+```	
+
