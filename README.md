@@ -739,3 +739,48 @@ Get all ingress
 kubectl get ingress --all-namespace
 ```	
 
+# State Persistence
+
+## Volumes and Mounts
+
+Local volumes per pod
+```yaml	
+ apiVersion: v1
+ kind: Pod
+ metadata:
+   name: my-app-pod
+spec:
+  containers:
+  - name: my-app-container
+    image: my-app:latest
+    volumeMounts:
+    - name: my-app-volume
+      mountPath: /my-app-volume
+      readOnly: true
+  volumes:
+  - name: my-app-volume
+    hostPath:
+      path: /tmp/my-app-volume
+      type: Directory
+ ```
+
+ Volumes external services - Shared by All Pods in all nodes
+ ```yaml	
+ apiVersion: v1
+ kind: Pod
+ metadata:
+   name: my-app-pod
+spec:
+  containers:
+  - name: my-app-container
+    image: my-app:latest
+    volumeMounts:
+    - name: my-app-volume
+      mountPath: /my-app-volume
+      readOnly: true
+  volumes:
+  - name: my-app-volume
+    awsElasticBlockStore:
+      volumeID: vol-12345678
+      fsType: ext4
+ ```	
