@@ -1,0 +1,17 @@
+apiVersion: v1
+ kind: Pod
+ metadata:
+   name: my-app-pod
+spec:
+  containers:
+  - name: my-app-container
+    image: my-app:latest
+    volumeMounts:
+    - name: my-app-volume
+      mountPath: /my-app-volume
+      readOnly: true
+  volumes:
+  - name: my-app-volume
+    awsElasticBlockStore:
+      volumeID: vol-12345678
+      fsType: ext4
