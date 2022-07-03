@@ -55,9 +55,16 @@ kubeclt create -f persistent_volume_claim_sc.yaml
 ```bash
 kubeclt create -f pod_definition_pvc.yaml
 ```
-3b - Create Deployment Claiming Persistent Volume
+3b[NonOK] - Create Deployment Claiming Persistent Volume
 ```bash
 kubeclt create -f deployment_pvc.yaml
+```
+
+The problem with the above deployment is that the same volume will be shared by all pods.
+We want to create a new volume for each pod. For this we use a StatefulSet which will create a new volume for each pod using the volumeClaimTemplates property.
+3b[OK] - Create StatefulSet
+```bash
+kubeclt create -f statefulset.yaml
 ```
 
 #### Several provisioners
