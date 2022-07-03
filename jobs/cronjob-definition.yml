@@ -1,0 +1,18 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: my-app-cronjob
+spec:
+  schedule: "*/5 * * * *" # every 5 minutes
+  jobTemplate:
+    spec:
+      completions: 6 # number of times the job will be run
+      parallelism: 3 # number of pods that can run at the same time
+      template:
+        metadata:
+          labels:
+            app: my-app
+        containers:
+          - name: my-app-container
+            image: my-app:latest
+        restartPolicy: Never

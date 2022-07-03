@@ -1,0 +1,16 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: my-app-job
+spec:
+  completions: 6 # number of times the job will be run
+  parallelism: 3 # number of pods that can run at the same time
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+        - name: my-app-container
+          image: my-app:latest
+      restartPolicy: Never
