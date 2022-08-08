@@ -55,3 +55,31 @@ helm install my-release bitnami/wordpress
 
 helm install --values custom-values.yaml my-release bitnami/wordpress
 ```
+
+## Writing Helm Charts
+
+Creating structure to be customized
+
+```bash
+helm create example-chart
+```
+
+Checking for errors in the chart
+
+```bash
+helm lint ./example-chart
+```
+
+Checking for errors in templating
+
+```bash
+helm template ./example-chart
+helm template release-name ./example-chart
+helm template release-name ./example-chart --debug
+```
+
+Doing a Dry Run for checking for errors in K8s
+
+```bash
+helm install release-name ./example-chart --dry-run
+```
