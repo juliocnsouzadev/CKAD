@@ -83,3 +83,58 @@ Doing a Dry Run for checking for errors in K8s
 ```bash
 helm install release-name ./example-chart --dry-run
 ```
+
+## Functions
+
+### String functions
+
+```bash
+# .Values.image.repository == my-image
+{{ upper .Values.image.repository}} # MY-IMAGE
+{{ quote .Values.image.repository}} # "my-image"
+{{ replace "-" "_" .Values.image.repository}} # my_image
+{{ shuffle .Values.image.repository}} # "ema-gmyi"
+```
+
+More: 
+
+[Template Function List](https://helm.sh/docs/chart_template_guide/function_list/#string-functions)
+
+### More function types
+
+- [Cryptographic and Security](https://helm.sh/docs/chart_template_guide/function_list/#cryptographic-and-security-functions)
+- [Date](https://helm.sh/docs/chart_template_guide/function_list/#date-functions)
+- [Dictionaries](https://helm.sh/docs/chart_template_guide/function_list/#dictionaries-and-dict-functions)
+- [Encoding](https://helm.sh/docs/chart_template_guide/function_list/#encoding-functions)
+- [File Path](https://helm.sh/docs/chart_template_guide/function_list/#file-path-functions)
+- [Kubernetes and Chart](https://helm.sh/docs/chart_template_guide/function_list/#kubernetes-and-chart-functions)
+- [Logic and Flow Control](https://helm.sh/docs/chart_template_guide/function_list/#logic-and-flow-control-functions)
+- [Lists](https://helm.sh/docs/chart_template_guide/function_list/#lists-and-list-functions)
+- [Math](https://helm.sh/docs/chart_template_guide/function_list/#math-functions)
+- [Network](https://helm.sh/docs/chart_template_guide/function_list/#network-functions)
+- [Reflection](https://helm.sh/docs/chart_template_guide/function_list/#reflection-functions)
+- [Regular Expressions](https://helm.sh/docs/chart_template_guide/function_list/#regular-expressions)
+- [Semantic Versions](https://helm.sh/docs/chart_template_guide/function_list/#semantic-version-functions)
+- [String](https://helm.sh/docs/chart_template_guide/function_list/#string-functions)
+- [Type Conversion](https://helm.sh/docs/chart_template_guide/function_list/#type-conversion-functions)
+- [URL](https://helm.sh/docs/chart_template_guide/function_list/#url-functions)
+- [UUID](https://helm.sh/docs/chart_template_guide/function_list/#uuid-functions)
+
+full list: [https://helm.sh/docs/chart_template_guide/function_list/](https://helm.sh/docs/chart_template_guide/function_list/)
+
+### Default Value
+
+If the value is not present in the values.yaml fals  into a defult value
+
+```bash
+{{ default "default-image" .Values.image.repository}}
+```
+
+## Pipelines
+
+Pipe functions
+
+```bash
+# .Values.image.repository == my-image
+{{ .Values.image.repository | upper | quote}} # "MY-IMAGE"
+```
