@@ -138,3 +138,103 @@ Pipe functions
 # .Values.image.repository == my-image
 {{ .Values.image.repository | upper | quote}} # "MY-IMAGE"
 ```
+
+## Conditionals
+
+template
+
+```yaml
+apiVersion: v1
+kind : Service
+metadata
+	name: {{ .Release.Name }}-nginx
+	{{- if .Values.orgLabel }}
+	labels:
+		org: {{ .Values .orgLabel }}
+{{- end }}
+...
+```
+
+output if {{ .Values .orgLabel }} exisits:
+
+```yaml
+apiVersion: v1
+kind : Service
+metadata
+	name: RELEASE-NAME-nginx
+	labels:
+		org: payroll
+...
+```
+
+output if {{ .Values .orgLabel }} does not exisits:
+
+```yaml
+
+apiVersion: v1
+kind : Service
+metadata
+	name: RELEASE-NAME-nginx
+...
+```
+
+if/if else…/else
+
+```yaml
+apiVersion: v1
+kind : Service
+metadata
+	name: {{ .Release.Name }}-nginx
+	{{- if empty .Values.orgLabel }}
+	labels:
+		org: default-org
+	{{- else if eq .Values.orgLabel "eng" }}
+	labels:
+		org: engineering
+	{{- else }}
+	labels:
+		org: {{ .Values.orgLabel }}
+{{- end }}
+...
+```
+
+| Function | Purpose |
+| --- | --- |
+| eq | equal |
+| ne | not equal |
+| lt | less than |
+| le | less than or equal to |
+| gt | greater than |
+| not | negation |
+| empty | value is empty |
+
+## Scopes and Loops
+
+Scopes uses With Blocks
+
+```yaml
+{{- with .Values.serviceAccount.create }}
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ .Values.serviceAccount.name }}
+  labels:
+    app: webapp-color
+{{- end }}
+```
+
+Loops
+
+```yaml
+{{- with .Values.serviceAccount.create }}
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ $.Values.serviceAccount.name }}
+  labels:
+    {{- range $.Values.serviceAccount.labels }}
+    tier: {{ . }}
+    {{- end }}
+    app: webapp-color
+{{- end }}
+```
