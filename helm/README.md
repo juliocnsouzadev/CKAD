@@ -238,3 +238,35 @@ metadata:
     app: webapp-color
 {{- end }}
 ```
+
+## Named Template
+
+![Untitled](images/Untitled.png)
+
+![Untitled](images/Untitled%201.png)
+
+## Chart Hooks
+
+Normal flow in helm
+
+![Untitled](images/Untitled%202.png)
+
+pre-upgrade hook
+
+![Untitled](images/Untitled%203.png)
+
+another hooks
+
+![Untitled](images/Untitled%204.png)
+
+Creating Hooks
+
+![Untitled](images/Untitled%205.png)
+
+Ordering Hooks in phase with weight
+
+![Untitled](images/Untitled%206.png)
+
+Policies according hook status
+
+![Untitled](images/Untitled%207.png)
