@@ -58,6 +58,7 @@ spec:
         - sleep
         - "10"
 ```
+- ## [Imperative Commands](./imperative-commands/README.md)
 
 - ## [Config Maps](./configmaps/README.md)
 
